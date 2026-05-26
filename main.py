@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 import pickle
 import numpy as np
 
@@ -17,10 +16,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load ML Model
+# Load Model
 model = pickle.load(open("health_fitness.pkl", "rb"))
 
-# Serve React Dist Folder
+# Serve React Build
 app.mount(
     "/",
     StaticFiles(directory="fitness-react-ui/dist", html=True),
