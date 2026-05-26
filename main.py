@@ -8,13 +8,6 @@ import numpy as np
 
 app = FastAPI()
 
-# Serve React Assets
-app.mount(
-    "/assets",
-    StaticFiles(directory="fitness-react-ui/dist/assets"),
-    name="assets"
-)
-
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +19,13 @@ app.add_middleware(
 
 # Load ML Model
 model = pickle.load(open("health_fitness.pkl", "rb"))
+
+# Serve React Build Files
+app.mount(
+    "/assets",
+    StaticFiles(directory="fitness-react-ui/dist/assets"),
+    name="assets"
+)
 
 # Input Schema
 class HealthData(BaseModel):
