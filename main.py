@@ -20,11 +20,11 @@ app.add_middleware(
 # Load ML Model
 model = pickle.load(open("health_fitness.pkl", "rb"))
 
-# Serve React Build Files
+# Serve React Dist Folder
 app.mount(
-    "/assets",
-    StaticFiles(directory="fitness-react-ui/dist/assets"),
-    name="assets"
+    "/",
+    StaticFiles(directory="fitness-react-ui/dist", html=True),
+    name="frontend"
 )
 
 # Input Schema
@@ -35,19 +35,12 @@ class HealthData(BaseModel):
     sleep_hours: float
     water_intake_liters: float
 
-# Health Check Route
+# Health Route
 @app.get("/health")
 def health():
-    return {
-        "status": "Backend Running Successfully"
-    }
+    return {"status": "Backend Running Successfully"}
 
-# Serve React Frontend
-@app.get("/")
-def serve_react():
-    return FileResponse("fitness-react-ui/dist/index.html")
-
-# Prediction API
+# Prediction Route
 @app.post("/predict")
 def predict(data: HealthData):
 
