@@ -19,13 +19,6 @@ app.add_middleware(
 # Load Model
 model = pickle.load(open("health_fitness.pkl", "rb"))
 
-# Serve React Build
-app.mount(
-    "/",
-    StaticFiles(directory="fitness-react-ui/dist", html=True),
-    name="frontend"
-)
-
 # Input Schema
 class HealthData(BaseModel):
     exercise_minutes: float
@@ -56,3 +49,10 @@ def predict(data: HealthData):
     return {
         "predicted_weight": round(float(prediction[0]), 2)
     }
+
+# React Frontend LAST me mount karo
+app.mount(
+    "/",
+    StaticFiles(directory="fitness-react-ui/dist", html=True),
+    name="frontend"
+)
